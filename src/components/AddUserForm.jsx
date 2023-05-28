@@ -8,7 +8,7 @@ const AddUserForm = (props) => {
     handleSubmit,
   } = useForm();
   const onSubmit = (data,e)=>{
-    console.log(data)
+    // console.log(data)
     props.addUser(data)
     //limpiar inputs
     e.target.reset()
