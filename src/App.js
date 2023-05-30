@@ -15,20 +15,6 @@ function App() {
   // Editar usuarios
   const [editing, setEditing] = useState(false);
 
-  //user actual
-  const [currentUser,setCurrentUser] = useState({
-    id:null,name:'',username:''
-  })
-
-  const editRow=(user)=>{
-    setEditing(true)
-    setCurrentUser({
-      id:user.id,
-      name:user.name,
-      username:user.username
-    })
-  }
-
   // Agregar usuarios
   const addUser = (user) => {
     user.id = uuidv4();
@@ -40,32 +26,50 @@ function App() {
     setUsers(arraFiltrado);
   };
 
+  //user actual
+  const [currentUser, setCurrentUser] = useState({
+    id: null,
+    name: "",
+    username: "",
+  });
+
+  const editRow = (user) => {
+    setEditing(true);
+    setCurrentUser({
+      id: user.id,
+      name: user.name,
+      username: user.username,
+    });
+  };
+
+  //actualizando user
+  const updateUser=(id,updateUser)=>{
+    setEditing(false)
+    setUsers(users.map(user=>(
+      user.id===id ? updateUser: user
+    )))
+  }
+
   return (
     <div className="container">
       <h1>CRUD App with Hooks</h1>
       <div className="flex-row">
         <div className="flex-large">
-          {
-          editing ? (
-            <>
+          {editing ? (
+            <div>
               <h2>Edit User</h2>
-              <EditUserForm
-                currentUser={currentUser}/>
-            </>
+              <EditUserForm currentUser={currentUser} updateUser={updateUser}/>
+            </div>
           ) : (
-            <>
+            <div>
               <h2>Add user</h2>
               <AddUserForm addUser={addUser} />
-            </>
+            </div>
           )}
         </div>
         <div className="flex-large">
           <h2>View user</h2>
-          <UserTable
-            users={users}
-            deleteUser={deleteUser}
-            editRow={editRow}
-          />
+          <UserTable users={users} deleteUser={deleteUser} editRow={editRow} />
         </div>
       </div>
     </div>
